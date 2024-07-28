@@ -25,6 +25,16 @@
         ├── example.py
         └── __init__.py
 
+## Setup
+
+Clone or fork this code then create a virtual environment:
+
+```bash
+python3 -m venv .fastapi
+source .fastapi/bin/activate
+python3 -m pip install -r requirements.txt
+```
+
 1. Define a model layer.
 2. Create fakes for testing and building logic
 3. Create service layer, that connects data/fakes to web layer.
