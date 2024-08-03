@@ -11,7 +11,7 @@ def get_all() -> list[Example]:
 
 def get_one(name: str) -> Example | None:
     """Get one if exists"""
-    return data.get(name)
+    return data.get_one(name)
 
 
 def create(Example: Example) -> Example:
