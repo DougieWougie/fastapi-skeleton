@@ -1,6 +1,9 @@
+import os
 from errors import Missing
 
-from init import curs
+os.environ["EXAMPLE_DB"] = ":memory:"
+
+from data.init_sqlite import curs
 from model.example import Example
 
 curs.execute(
@@ -16,7 +19,7 @@ def row_to_model(row: tuple) -> Example:
 
 
 def model_to_dict(example: Example) -> dict:
-    return example.dict() if example else None
+    return example.model_dump() if example else None
 
 
 def get_one(name: str) -> Example:

@@ -1,5 +1,8 @@
 from model.example import Example
-import fake.example as data
+
+# import fake.example as data
+import data.example as data
+
 
 def get_all() -> list[Example]:
     """Get all"""
