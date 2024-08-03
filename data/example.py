@@ -16,7 +16,7 @@ def row_to_model(row: tuple) -> Example:
 
 
 def model_to_dict(example: Example) -> dict:
-    return example.dict()
+    return example.model_dump()
 
 
 def get_one(name: str) -> Example:
