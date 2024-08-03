@@ -1,42 +1,62 @@
 from model.example import Example
+from errors import Missing, Duplicate
 
-# Fake data
-_example = [
+
+fakes = [
     Example(
-        name='J. R. "Bob" Dobbs',
+        name="J. R. Bob Dobbs",
         country="USA",
         description="Salesman who, in 1953, saw a vision of the god JHVH-1 on a television set he had built.",
+    ),
+    Example(
+        name="Connie Dobbs",
+        country="USA",
+        description="Wife of a salesman who, in 1953, saw a vision of the god JHVH-1 on a television set he had built.",
     ),
 ]
 
 
-def get_all() -> list[Example]:
-    """Return all Examples"""
-    return _example
-
-
-def get_one(name: str) -> Example | None:
-    for _Example in _example:
-        if _Example.name == name:
-            return _Example
+def find(name: str) -> Example | None:
+    for e in fakes:
+        if e.name == name:
+            return e
     return None
 
 
-def create(Example: Example) -> Example:
-    """Add an Example"""
-    return Example
+def check_missing(name: str):
+    if not find(name):
+        raise Missing(msg=f"Missing example {name}")
 
 
-def modify(Example: Example) -> Example:
-    """Partially modify an Example"""
-    return Example
+def check_duplicate(name: str):
+    if find(name):
+        raise Duplicate(msg=f"Duplicate example {name}")
 
 
-def replace(Example: Example) -> Example:
-    """Completely replace an Example"""
-    return Example
+def get_all() -> list[Example]:
+    """Return all explorers"""
+    return fakes
 
 
-def delete(name: str) -> bool:
-    """Delete an Example; return None if it existed"""
+def get_one(name: str) -> Example:
+    """Return one example"""
+    check_missing(name)
+    return find(name)
+
+
+def create(example: Example) -> Example:
+    """Add a example"""
+    check_duplicate(example.name)
+    return example
+
+
+def modify(name: str, example: Example) -> Example:
+    """Partially modify a example"""
+    check_missing(name)
+    return example
+
+
+def delete(name: str) -> None:
+    """Delete a example"""
+    check_missing(name)
     return None

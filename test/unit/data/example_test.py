@@ -10,7 +10,11 @@ from data import example
 
 @pytest.fixture
 def sample() -> Example:
-    return Example(name="Pa Tuohy", description="Expectorating example", country="IE")
+    return Example(
+        name="J. R. Bob Dobbs",
+        country="USA",
+        description="Salesman who, in 1953, saw a vision of the god JHVH-1 on a television set he had built.",
+    )
 
 
 def test_create(sample):

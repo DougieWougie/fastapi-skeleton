@@ -5,14 +5,15 @@ import os
 os.environ["EXAMPLE_UNIT_TEST"] = "true"
 from model.example import Example
 from web import example
+from errors import Missing, Duplicate
 
 
 @pytest.fixture
 def sample() -> Example:
     return Example(
-        name="D. J. R. Bob Dobbs",
+        name='J. R. "Bob" Dobbs',
         country="USA",
-        description="Brother of a salesman who, in 1953, saw a vision of the god JHVH-1 on a television set he had built.",
+        description="Salesman who, in 1953, saw a vision of the god JHVH-1 on a television set he had built.",
     )
 
 
@@ -37,7 +38,7 @@ def test_create(sample):
 
 def test_create_duplicate(fakes):
     with pytest.raises(HTTPException) as exc:
-        _ = example.create(fakes[0])
+        resp = example.create(fakes[0])
         assert_duplicate(exc)
 
 
@@ -47,7 +48,7 @@ def test_get_one(fakes):
 
 def test_get_one_missing():
     with pytest.raises(HTTPException) as exc:
-        _ = example.get_one("Someone Else")
+        resp = example.get_one("Buffy")
         assert_missing(exc)
 
 
@@ -57,7 +58,7 @@ def test_modify(fakes):
 
 def test_modify_missing(sample):
     with pytest.raises(HTTPException) as exc:
-        _ = example.modify(sample.name, sample)
+        resp = example.modify(sample.name, sample)
         assert_missing(exc)
 
 
@@ -67,5 +68,5 @@ def test_delete(fakes):
 
 def test_delete_missing(sample):
     with pytest.raises(HTTPException) as exc:
-        _ = example.delete("Someone Else")
+        resp = example.delete("Wally")
         assert_missing(exc)

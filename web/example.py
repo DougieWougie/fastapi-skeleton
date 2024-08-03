@@ -1,42 +1,50 @@
-from fastapi import APIRouter
-
-import service.example as service
+import os
+from fastapi import APIRouter, HTTPException
 from model.example import Example
 
-# Define router
+if os.getenv("EXAMPLE_UNIT_TEST"):
+    from fake import example as service
+else:
+    from service import example as service
+from errors import Duplicate, Missing
+
 router = APIRouter(prefix="/example")
 
-# Define actions using decorators, remembering to specify
-# the terminated and non-terminated endpoint.
 
 @router.get("")
 @router.get("/")
 def get_all() -> list[Example]:
-    """Return all"""
     return service.get_all()
 
 
 @router.get("/{name}")
-def get_one(name) -> Example | None:
-    return service.get_one(name=name)
+def get_one(name) -> Example:
+    try:
+        return service.get_one(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.post("")
-@router.post("/")
-def create(Example: Example) -> Example:
-    return service.create(Example=Example)
+@router.post("", status_code=201)
+@router.post("/", status_code=201)
+def create(example: Example) -> Example:
+    try:
+        return service.create(example)
+    except Duplicate as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
 @router.patch("/")
-def modify(Example: Example) -> Example:
-    return service.modify(Example=Example)
+def modify(name: str, example: Example) -> Example:
+    try:
+        return service.modify(name, example)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.put("/")
-def replace(Example: Example) -> Example:
-    return service.replace(Example=Example)
-
-
-@router.delete("/{name}")
+@router.delete("/{name}", status_code=204)
 def delete(name: str):
-    return None
+    try:
+        return service.delete(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
