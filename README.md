@@ -1,4 +1,9 @@
+![Fast API Skeleton](https://github.com/user-attachments/assets/897da9ea-c0cb-42c1-a746-f8cf72431692)
+
 # Fast API skeleton
+Employs the FastAPI pattern explored in Bill Lubanovic's book _FastAPI: Modern Python Web Development_.
+
+## Structure
 
     .
     ├── data
