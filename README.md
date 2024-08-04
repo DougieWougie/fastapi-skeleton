@@ -3,6 +3,9 @@
 # Fast API skeleton
 Employs the FastAPI pattern explored in Bill Lubanovic's book _FastAPI: Modern Python Web Development_.
 
+## Overview
+![Overview](https://github.com/user-attachments/assets/3e7e572d-12c7-44f9-a5d5-695e50eeaa6b)
+
 ## Structure
 
     .
